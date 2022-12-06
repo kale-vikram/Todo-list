@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from "react";
 function App() {
+  const [inputVal, setInputVal] = useState("");
+  const [inputArr, setInputArr] = useState([]);
+
+  const addItems = () => {
+    if (!inputVal) {
+      alert("Please give some input");
+    } else {
+      setInputArr([...inputArr, inputVal]);
+      setInputVal("");
+    }
+  };
+  const DeletItem = (id) => {
+    const newArr = inputArr.filter((val, ind) => {
+      return id !== ind;
+    });
+    setInputArr(newArr);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div style={{ textAlign: "center" }}>
+        <div>
+          Todo List  <br />
+          <input
+            type="text"
+            value={inputVal}
+            onChange={(e) => {
+              setInputVal(e.target.value);
+            }}
+          />
+          <button onClick={addItems}>Submit</button>
+        </div>
+        <div>
+          <ul>{
+            inputArr.map((val,ind)=>{
+                 return <li>{val} <button onClick={()=>DeletItem(ind)}>Delet</button></li>
+            })
+
+          }</ul>
+        </div>
+      </div>
+    </>
   );
 }
 
